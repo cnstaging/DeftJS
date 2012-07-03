@@ -647,10 +647,10 @@ Ext.Class.registerPreprocessor('controller', function (Class, data, hooks, callb
     delete data.controller;
     if (controllerClass != null) {
 
-      if (!this.__proto__.controllerState) {
-        this.__proto__.controllerState = {deftJS : {currentController : undefined, controllerChain : {attempted : [], processed : []}}};
+      if (!Class.prototype.controllerState) {
+        Class.prototype.controllerState = {deftJS : {currentController : undefined, controllerChain : {attempted : [], processed : []}}};
       }
-      controllerState = this.__proto__.controllerState;
+      controllerState = Class.prototype.controllerState;
       controllerState.deftJS.controllerChain.attempted.push({id : Ext.id(undefined, 'attempted-controller'), class : controllerClass});
 
       if (!data.hasOwnProperty('constructor')) {
@@ -682,6 +682,9 @@ Ext.Class.registerPreprocessor('controller', function (Class, data, hooks, callb
 
         this.getController = function () {
           return controller;
+        };
+        this.getControllerState = function () {
+          return controllerState;
         };
         originalConstructor.apply(this, arguments);
         controller.controlView(this);
